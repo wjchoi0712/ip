@@ -1,0 +1,11 @@
+todo play
+todo watch video
+deadline finish homework /by 11th NOV
+list
+event attend lecture /at 2pm Tues
+list
+deadline clean up /by not sure
+done 1
+done 3
+list
+bye
