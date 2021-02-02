@@ -5,19 +5,25 @@ public class Task {
 
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
+        isDone = false;
     }
 
-    public String getStatusIcon() {
-        return (isDone ? "[X]" : "[ ]");
-    }
-
+    /**
+     * Marks the isDone boolean to true
+     * */
     public void markAsDone() {
         isDone = true;
     }
 
-    public String getStatusAndDescription() {
-        return this.getStatusIcon() + " " + this.description;
+    /**
+     * Returns the status icon of the task
+     * */
+    public String getStatusIcon() {
+        return (isDone ? "[X]" : "[ ]");
     }
 
+    @Override
+    public String toString() {
+        return getStatusIcon() + " " + description;
+    }
 }
