@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import duke.exception.*;
 import duke.task.*;
+import java.io.*;
 
 public class Duke {
 
@@ -40,7 +41,7 @@ public class Duke {
 
     public static void printDeleteResponse(ArrayList<Task> tasks, int taskNo) {
         System.out.println(LINE_SEPARATOR);
-        System.out.println(MESSAGE_ADDTASK);
+        System.out.println(MESSAGE_DELETETASK);
         System.out.println("   " + tasks.get(taskNo - 1).toString());
         System.out.println(String.format(MESSAGE_REMAININGTASK, tasks.size() - 1));
         System.out.println(LINE_SEPARATOR);
@@ -133,9 +134,15 @@ public class Duke {
         return command;
     }
 
-    private static void manageTasks() {
+    public static void manageTasks() {
         ArrayList<Task> tasks = new ArrayList<Task>();
         boolean runDuke = true;
+        File f = new File("duke.txt");
+        try {
+            loadPrevData(tasks, "duke.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         Scanner in = new Scanner(System.in);
         while (runDuke) {
             String userInput = in.nextLine();
@@ -152,17 +159,20 @@ public class Duke {
                     int completedTaskNo = Integer.parseInt(userInput.replace("done ", ""));
                     tasks.get(completedTaskNo - 1).markAsDone();
                     printDoneResponse(tasks, completedTaskNo);
+                    updateData(tasks);
                     break;
                 case DELETE:
                     int deletedTaskNo = Integer.parseInt(userInput.replace("delete ", ""));
                     printDeleteResponse(tasks, deletedTaskNo);
                     tasks.remove(tasks.get(deletedTaskNo-1));
+                    updateData(tasks);
                     break;
                 case TODO:
                 case EVENT:
                 case DEADLINE:
                     addTask(tasks, userInput, command);
                     printAddResponse(tasks, tasks.size());
+                    AddTasksasTxt(tasks, tasks.size() - 1);
                     break;
                 }
             } catch (InvalidCommandException e) {
@@ -171,8 +181,58 @@ public class Duke {
                 printResponse(e.getMessage());
             } catch (NoDescriptionException e) {
                 printResponse(e.getMessage());
-            } catch (InvalidDescriptionException e){
+            } catch (InvalidDescriptionException e) {
                 printResponse(e.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void AddTasksasTxt(ArrayList<Task> tasks, int index) throws IOException {
+        appendToFile(tasks.get(index).toString());
+    }
+
+    public static void updateData(ArrayList<Task> tasks) throws IOException {
+        FileWriter fw = new FileWriter("duke.txt");
+        fw.write("");
+        for (Task t : tasks) {
+            appendToFile(t.toString());
+        }
+    }
+
+    public static void appendToFile(String textToAppend) throws IOException {
+        FileWriter fw = new FileWriter("duke.txt", true);
+        fw.write(textToAppend + System.lineSeparator());
+        fw.close();
+    }
+
+    public static void loadPrevData(ArrayList<Task> tasks, String filePath) throws FileNotFoundException {
+        File f = new File(filePath);
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            String data = s.nextLine();
+            char taskType = data.charAt(1);
+            String description = data.substring(7);
+            String detail;
+            String time;
+            switch (taskType) {
+            case 'T':
+                tasks.add(new ToDo(description));
+                break;
+            case 'D':
+                detail = description.substring(0, description.indexOf("by:") - 2);
+                time = description.substring(description.indexOf("by:") + 4, description.length() - 1);
+                tasks.add(new Deadline(detail, time));
+                break;
+            case 'E':
+                detail = description.substring(0, description.indexOf("at:") - 2);
+                time = description.substring(description.indexOf("at:") + 4, description.length() - 1);
+                tasks.add(new Deadline(detail, time));
+                break;
+            }
+            if (data.charAt(4) == 'X') {
+                tasks.get(tasks.size() - 1).markAsDone();
             }
         }
     }
