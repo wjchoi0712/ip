@@ -20,6 +20,7 @@ public class Duke {
     private static final String MESSAGE_ENDING = " Bye. Hope to see you again soon!";
     private static final String MESSAGE_LISTTASK = " Here are the tasks in your list:";
     private static final String MESSAGE_ADDTASK = " Got it. I've added this task:";
+    private static final String MESSAGE_DELETETASK = " Noted. I've removed this task:";
     private static final String MESSAGE_REMAININGTASK = " Now you have %d tasks in the list.";
     private static final String MESSAGE_DONETASK = "Nice! I've marked this task as done:";
 
@@ -29,29 +30,40 @@ public class Duke {
         System.out.println(LINE_SEPARATOR);
     }
 
-    public static void printResponse(ArrayList<Task> tasks, String response, int taskNo) {
+    public static void printAddResponse(ArrayList<Task> tasks, int taskNo) {
         System.out.println(LINE_SEPARATOR);
-        System.out.println(response);
-        if (response.equals(MESSAGE_ADDTASK)) {
-            System.out.println("   " + tasks.get(taskNo - 1).toString());
-            System.out.println(String.format(MESSAGE_REMAININGTASK, tasks.size()));
-        } else {
-            System.out.println("   " + tasks.get(taskNo - 1).toString());
-        }
+        System.out.println(MESSAGE_ADDTASK);
+        System.out.println("   " + tasks.get(taskNo - 1).toString());
+        System.out.println(String.format(MESSAGE_REMAININGTASK, tasks.size()));
+        System.out.println(LINE_SEPARATOR);
+    }
+
+    public static void printDeleteResponse(ArrayList<Task> tasks, int taskNo) {
+        System.out.println(LINE_SEPARATOR);
+        System.out.println(MESSAGE_ADDTASK);
+        System.out.println("   " + tasks.get(taskNo - 1).toString());
+        System.out.println(String.format(MESSAGE_REMAININGTASK, tasks.size() - 1));
+        System.out.println(LINE_SEPARATOR);
+    }
+
+    public static void printDoneResponse(ArrayList<Task> tasks, int taskNo) {
+        System.out.println(LINE_SEPARATOR);
+        System.out.println(MESSAGE_DONETASK);
+        System.out.println("   " + tasks.get(taskNo - 1).toString());
         System.out.println(LINE_SEPARATOR);
     }
 
     public static void printList(ArrayList<Task> tasks) throws EmptyListException {
-        System.out.println(LINE_SEPARATOR);
         if (tasks.size() != 0) {
+            System.out.println(LINE_SEPARATOR);
             System.out.println(MESSAGE_LISTTASK);
             for (int i = 0; i < tasks.size(); i++) {
                 System.out.println(" " + (i + 1) + ". " + tasks.get(i).toString());
             }
+            System.out.println(LINE_SEPARATOR);
         } else {
             throw new EmptyListException();
         }
-        System.out.println(LINE_SEPARATOR);
     }
 
     public static String getDescriptionOfTask(String userInput) {
@@ -107,6 +119,8 @@ public class Duke {
             command = CommandType.LIST;
         } else if (userInput.startsWith("done")) {
             command = CommandType.DONE;
+        } else if (userInput.startsWith("delete")) {
+            command = CommandType.DELETE;
         } else if (userInput.startsWith("todo")) {
             command = CommandType.TODO;
         } else if (userInput.startsWith("deadline")) {
@@ -137,13 +151,18 @@ public class Duke {
                 case DONE:
                     int completedTaskNo = Integer.parseInt(userInput.replace("done ", ""));
                     tasks.get(completedTaskNo - 1).markAsDone();
-                    printResponse(tasks, MESSAGE_DONETASK, completedTaskNo);
+                    printDoneResponse(tasks, completedTaskNo);
+                    break;
+                case DELETE:
+                    int deletedTaskNo = Integer.parseInt(userInput.replace("delete ", ""));
+                    printDeleteResponse(tasks, deletedTaskNo);
+                    tasks.remove(tasks.get(deletedTaskNo-1));
                     break;
                 case TODO:
                 case EVENT:
                 case DEADLINE:
                     addTask(tasks, userInput, command);
-                    printResponse(tasks, MESSAGE_ADDTASK, tasks.size());
+                    printAddResponse(tasks, tasks.size());
                     break;
                 }
             } catch (InvalidCommandException e) {
