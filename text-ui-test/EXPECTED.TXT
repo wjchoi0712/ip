@@ -46,13 +46,13 @@ Nice! I've marked this task as done:
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
-   [D][X] finish homework (by: 11th NOV)
+   [T][X] watch video
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
  1. [T][X] play
- 2. [T][ ] watch video
- 3. [D][X] finish homework (by: 11th NOV)
+ 2. [T][X] watch video
+ 3. [D][ ] finish homework (by: 11th NOV)
  4. [E][ ] attend lecture (at: 2pm Tues)
  5. [D][ ] clean up (by: not sure)
 ____________________________________________________________
