@@ -1,5 +1,9 @@
+package duke;
+
 import java.util.Scanner;
 import java.util.ArrayList;
+import duke.exception.*;
+import duke.task.*;
 
 public class Duke {
 
@@ -37,7 +41,7 @@ public class Duke {
         System.out.println(LINE_SEPARATOR);
     }
 
-    public static void printList(ArrayList<Task> tasks) throws EmptyListException{
+    public static void printList(ArrayList<Task> tasks) throws EmptyListException {
         System.out.println(LINE_SEPARATOR);
         if (tasks.size() != 0) {
             System.out.println(MESSAGE_LISTTASK);
@@ -95,7 +99,7 @@ public class Duke {
         }
     }
 
-    public static CommandType scanCommand(String userInput) throws InvalidCommandException{
+    public static CommandType scanCommand(String userInput) throws InvalidCommandException {
         CommandType command;
         if (userInput.equals("bye")) {
             command = CommandType.BYE;

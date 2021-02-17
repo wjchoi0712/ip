@@ -1,3 +1,5 @@
+package duke.exception;
+
 public class NoDescriptionException extends DukeException {
     @Override
     public String getMessage() {
