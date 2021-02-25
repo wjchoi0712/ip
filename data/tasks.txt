@@ -1,1 +1,6 @@
-todo afds [ ]
+todo todo [ ]
+todo todo [ ]
+todo sfjksl [ ]
+todo sfjsdljfs [ ]
+deadline sdfaf /by 2013-13-01 [ ]
+deadline fs /by 1월 12 2013 [ ]

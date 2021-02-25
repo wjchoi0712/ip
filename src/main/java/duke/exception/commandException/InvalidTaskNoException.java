@@ -1,4 +1,6 @@
-package duke.exception;
+package duke.exception.commandException;
+
+import duke.exception.DukeException;
 
 public class InvalidTaskNoException extends DukeException {
     public String getMessage() {
