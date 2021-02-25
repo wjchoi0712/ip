@@ -1,12 +1,16 @@
 package duke.parser;
 
 import duke.command.*;
+
+import duke.exception.commandException.DoneTaskException;
 import duke.exception.commandException.InvalidCommandException;
 import duke.exception.commandException.InvalidTaskNoException;
 import duke.exception.descriptionException.InvalidDeadlineDescriptionException;
 import duke.exception.descriptionException.InvalidDescriptionException;
 import duke.exception.descriptionException.InvalidEventDescriptionException;
 import duke.exception.descriptionException.NoDescriptionException;
+import duke.task.Task;
+import duke.task.TaskList;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +30,8 @@ public class Parser {
             commandType = CommandType.DONE;
         } else if (userInput.startsWith("delete")) {
             commandType = CommandType.DELETE;
+        } else if (userInput.startsWith("find")) {
+            commandType = CommandType.FIND;
         } else if (userInput.startsWith("todo")) {
             commandType = CommandType.TODO;
         } else if (userInput.startsWith("deadline")) {
@@ -54,6 +60,9 @@ public class Parser {
         case DELETE:
             command = new CommandDelete(userInput);
             break;
+        case FIND:
+            command = new CommandFind(userInput);
+            break;
         case TODO:
         case EVENT:
         case DEADLINE:
@@ -65,13 +74,34 @@ public class Parser {
         return command;
     }
 
-    public int prepareForDoneOrDelete(String userInput, String commandType, int totalNoOfTasks) throws InvalidTaskNoException {
+    public boolean isWithinBound(TaskList tasks, int taskNo) {
+        return (taskNo <= tasks.getTotalNoOfTasks() && taskNo > 0);
+    }
+
+    public int prepareForDone(TaskList tasks, String userInput) throws InvalidTaskNoException, DoneTaskException {
         try {
-            int TaskNo = Integer.parseInt(userInput.replace(commandType, ""));
-            if (TaskNo > totalNoOfTasks || TaskNo < 1) {
-                throw new InvalidTaskNoException();
+            int taskNo = Integer.parseInt(userInput.replace("done ", ""));
+            if (isWithinBound(tasks, taskNo)) {
+                if (tasks.getTask(taskNo - 1).isDone()) {
+                    throw new DoneTaskException();
+                } else {
+                    return taskNo;
+                }
             } else {
-                return TaskNo;
+                throw new InvalidTaskNoException();
+            }
+        } catch (NumberFormatException e) {
+            throw new InvalidTaskNoException();
+        }
+    }
+
+    public int prepareForDelete(TaskList tasks, String userInput) throws InvalidTaskNoException {
+        try {
+            int taskNo = Integer.parseInt(userInput.replace("delete ", ""));
+            if (isWithinBound(tasks, taskNo)) {
+                return taskNo;
+            } else {
+                throw new InvalidTaskNoException();
             }
         } catch (NumberFormatException e) {
             throw new InvalidTaskNoException();
@@ -130,5 +160,17 @@ public class Parser {
             throw new InvalidDescriptionException();
         }
         return inputs;
+    }
+
+    public TaskList prepareForFind(TaskList tasks, String userInput) {
+        TaskList matchingTasks = new TaskList();
+        String keyword = userInput.replace("find ", "");
+        for (int i = 0; i < tasks.getTotalNoOfTasks(); i++) {
+            Task currentTask = tasks.getTask(i);
+            if (currentTask.getDescription().contains(keyword)) {
+                matchingTasks.addTask(currentTask);
+            }
+        }
+        return matchingTasks;
     }
 }
