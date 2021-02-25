@@ -1,17 +1,25 @@
 package duke.task;
 
-import duke.task.Task;
-
 public class Deadline extends Task {
-    private String by;
+    private String dueDate;
 
     public Deadline(String description, String dueDate) {
         super(description);
-        this.by = dueDate;
+        this.dueDate = dueDate;
+    }
+
+    @Override
+    public String getType() {
+        return "deadline";
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + " /by " + dueDate;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + dueDate + ")";
     }
 }

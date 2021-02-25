@@ -1,245 +1,51 @@
 package duke;
 
-import java.util.Scanner;
-import java.util.ArrayList;
+import duke.command.Command;
 import duke.exception.*;
-import duke.task.*;
-import java.io.*;
+import duke.parser.Parser;
+import duke.storage.Storage;
+import duke.task.TaskList;
+import duke.ui.TextUi;
 
 public class Duke {
-
-    /**
-     * Message lines that will be shown to the user
-     */
-    private static final String LINE_SEPARATOR = "____________________________________________________________";
-    private static final String LOGO = " ____        _\n"
-            + "|  _ \\ _   _| | _____\n"
-            + "| | | | | | | |/ / _ \\\n"
-            + "| |_| | |_| |   <  __/\n"
-            + "|____/ \\__,_|_|\\_\\___|\n\n";
-    private static final String MESSAGE_GREETING = " Hello! I'm Duke" + "\n What can I do for you?";
-    private static final String MESSAGE_ENDING = " Bye. Hope to see you again soon!";
-    private static final String MESSAGE_LISTTASK = " Here are the tasks in your list:";
-    private static final String MESSAGE_ADDTASK = " Got it. I've added this task:";
-    private static final String MESSAGE_DELETETASK = " Noted. I've removed this task:";
-    private static final String MESSAGE_REMAININGTASK = " Now you have %d tasks in the list.";
-    private static final String MESSAGE_DONETASK = "Nice! I've marked this task as done:";
-
-    public static void printResponse(String response) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println(response);
-        System.out.println(LINE_SEPARATOR);
-    }
-
-    public static void printAddResponse(ArrayList<Task> tasks, int taskNo) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println(MESSAGE_ADDTASK);
-        System.out.println("   " + tasks.get(taskNo - 1).toString());
-        System.out.println(String.format(MESSAGE_REMAININGTASK, tasks.size()));
-        System.out.println(LINE_SEPARATOR);
-    }
-
-    public static void printDeleteResponse(ArrayList<Task> tasks, int taskNo) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println(MESSAGE_DELETETASK);
-        System.out.println("   " + tasks.get(taskNo - 1).toString());
-        System.out.println(String.format(MESSAGE_REMAININGTASK, tasks.size() - 1));
-        System.out.println(LINE_SEPARATOR);
-    }
-
-    public static void printDoneResponse(ArrayList<Task> tasks, int taskNo) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println(MESSAGE_DONETASK);
-        System.out.println("   " + tasks.get(taskNo - 1).toString());
-        System.out.println(LINE_SEPARATOR);
-    }
-
-    public static void printList(ArrayList<Task> tasks) throws EmptyListException {
-        if (tasks.size() != 0) {
-            System.out.println(LINE_SEPARATOR);
-            System.out.println(MESSAGE_LISTTASK);
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println(" " + (i + 1) + ". " + tasks.get(i).toString());
-            }
-            System.out.println(LINE_SEPARATOR);
-        } else {
-            throw new EmptyListException();
-        }
-    }
-
-    public static String getDescriptionOfTask(String userInput) {
-        return userInput.substring(userInput.indexOf(" ") + 1);
-    }
-
-    public static String[] separateDescriptionAndTime(String description) {
-        String[] inputs = new String[2];
-
-        //Get just the task description
-        inputs[0] = description.substring(0, description.indexOf("/") - 1);
-
-        //Get the due date
-        inputs[1] = description.substring(description.indexOf("/") + 4);
-        return inputs;
-    }
-
-    public static void addTask(ArrayList<Task> tasks, String userInput, CommandType command) throws NoDescriptionException, InvalidDescriptionException {
-        if (userInput.contains(" ")) {
-            String description = getDescriptionOfTask(userInput);
-
-            switch (command) {
-            case TODO:
-                tasks.add(new ToDo(description));
-                break;
-            case DEADLINE:
-                if (description.contains("/by")) {
-                    String[] inputs = separateDescriptionAndTime(description);
-                    tasks.add(new Deadline(inputs[0], inputs[1]));
-                } else {
-                    throw new InvalidDescriptionException();
-                }
-                break;
-            case EVENT:
-                if (description.contains("/at")) {
-                    String[] inputs = separateDescriptionAndTime(description);
-                    tasks.add(new Event(inputs[0], inputs[1]));
-                } else {
-                    throw new InvalidDescriptionException();
-                }
-                break;
-            }
-        } else {
-            throw new NoDescriptionException();
-        }
-    }
-
-    public static CommandType scanCommand(String userInput) throws InvalidCommandException {
-        CommandType command;
-        if (userInput.equals("bye")) {
-            command = CommandType.BYE;
-        } else if (userInput.equals("list")) {
-            command = CommandType.LIST;
-        } else if (userInput.startsWith("done")) {
-            command = CommandType.DONE;
-        } else if (userInput.startsWith("delete")) {
-            command = CommandType.DELETE;
-        } else if (userInput.startsWith("todo")) {
-            command = CommandType.TODO;
-        } else if (userInput.startsWith("deadline")) {
-            command = CommandType.DEADLINE;
-        } else if (userInput.startsWith("event")) {
-            command = CommandType.EVENT;
-        } else {
-            throw new InvalidCommandException();
-        }
-        return command;
-    }
-
-    public static void manageTasks() {
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        boolean runDuke = true;
-        File f = new File("duke.txt");
-        try {
-            loadPrevData(tasks, "duke.txt");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Scanner in = new Scanner(System.in);
-        while (runDuke) {
-            String userInput = in.nextLine();
-            try {
-                CommandType command = scanCommand(userInput);
-                switch (command) {
-                case BYE:
-                    runDuke = false;
-                    break;
-                case LIST:
-                    printList(tasks);
-                    break;
-                case DONE:
-                    int completedTaskNo = Integer.parseInt(userInput.replace("done ", ""));
-                    tasks.get(completedTaskNo - 1).markAsDone();
-                    printDoneResponse(tasks, completedTaskNo);
-                    updateData(tasks);
-                    break;
-                case DELETE:
-                    int deletedTaskNo = Integer.parseInt(userInput.replace("delete ", ""));
-                    printDeleteResponse(tasks, deletedTaskNo);
-                    tasks.remove(tasks.get(deletedTaskNo-1));
-                    updateData(tasks);
-                    break;
-                case TODO:
-                case EVENT:
-                case DEADLINE:
-                    addTask(tasks, userInput, command);
-                    printAddResponse(tasks, tasks.size());
-                    AddTasksasTxt(tasks, tasks.size() - 1);
-                    break;
-                }
-            } catch (InvalidCommandException e) {
-                printResponse(e.getMessage());
-            } catch (EmptyListException e) {
-                printResponse(e.getMessage());
-            } catch (NoDescriptionException e) {
-                printResponse(e.getMessage());
-            } catch (InvalidDescriptionException e) {
-                printResponse(e.getMessage());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void AddTasksasTxt(ArrayList<Task> tasks, int index) throws IOException {
-        appendToFile(tasks.get(index).toString());
-    }
-
-    public static void updateData(ArrayList<Task> tasks) throws IOException {
-        FileWriter fw = new FileWriter("duke.txt");
-        fw.write("");
-        for (Task t : tasks) {
-            appendToFile(t.toString());
-        }
-    }
-
-    public static void appendToFile(String textToAppend) throws IOException {
-        FileWriter fw = new FileWriter("duke.txt", true);
-        fw.write(textToAppend + System.lineSeparator());
-        fw.close();
-    }
-
-    public static void loadPrevData(ArrayList<Task> tasks, String filePath) throws FileNotFoundException {
-        File f = new File(filePath);
-        Scanner s = new Scanner(f);
-        while (s.hasNext()) {
-            String data = s.nextLine();
-            char taskType = data.charAt(1);
-            String description = data.substring(7);
-            String detail;
-            String time;
-            switch (taskType) {
-            case 'T':
-                tasks.add(new ToDo(description));
-                break;
-            case 'D':
-                detail = description.substring(0, description.indexOf("by:") - 2);
-                time = description.substring(description.indexOf("by:") + 4, description.length() - 1);
-                tasks.add(new Deadline(detail, time));
-                break;
-            case 'E':
-                detail = description.substring(0, description.indexOf("at:") - 2);
-                time = description.substring(description.indexOf("at:") + 4, description.length() - 1);
-                tasks.add(new Deadline(detail, time));
-                break;
-            }
-            if (data.charAt(4) == 'X') {
-                tasks.get(tasks.size() - 1).markAsDone();
-            }
-        }
-    }
+    private static TextUi ui;
+    private static Storage storage;
+    private static TaskList tasks;
 
     public static void main(String[] args) {
-        printResponse(LOGO + MESSAGE_GREETING);
-        manageTasks();
-        printResponse(MESSAGE_ENDING);
+        new Duke().run();
+    }
+
+    private void run() {
+        try {
+            this.ui = new TextUi();
+            this.storage = initializeStorage("data/tasks.txt");
+            this.tasks = storage.loadData();
+            ui.showGreetingMessage();
+            runCommandLoopUntilExitCommand();
+        } catch(StorageOperationException soe) {
+            ui.showToUser(soe.getMessage());
+        }
+    }
+
+    private Storage initializeStorage(String filePath) throws InvalidFilePathException {
+        Storage storage = new Storage(filePath);
+        storage.createDirectory();
+        storage.createFile();
+        return new Storage(filePath);
+    }
+
+    public static void runCommandLoopUntilExitCommand() throws SaveDataOperationException {
+        boolean isExit = false;
+        while (!isExit) {
+            try {
+                String userInput = ui.getUserCommand();
+                Command command = Parser.prepareForCommandExecution(userInput);
+                command.execute(tasks, ui, storage);
+                isExit = command.isExit();
+            } catch (InvalidCommandException ice) {
+                ui.showToUser(ice.getMessage());
+            }
+        }
     }
 }

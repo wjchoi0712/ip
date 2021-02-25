@@ -10,19 +10,26 @@ public class Task {
         isDone = false;
     }
 
-    /**
-     * Marks the isDone boolean to true
-     * */
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public String getType() {
+        return "task";
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public void markAsDone() {
         isDone = true;
     }
 
-    /**
-     * Returns the status icon of the task
-     * */
     public String getStatusIcon() {
         return (isDone ? "[X]" : "[ ]");
     }
+
 
     @Override
     public String toString() {
