@@ -22,7 +22,7 @@ public class TaskFileDecoder {
                 CommandType commandType = Parser.scanCommandType(data);
                 String[] inputs = separateTaskDescriptionAndStatus(data);
                 tasks.addTask(inputs[0], commandType);
-                if (inputs[1].equals("X")) {
+                if (inputs[1].equals("\u2705")) {
                     tasks.getTask(tasks.getTotalNoOfTasks() - 1).markAsDone();
                 }
             }

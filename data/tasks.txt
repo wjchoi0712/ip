@@ -1,1 +1,4 @@
-todo afds [ ]
+todo afds [✅]
+todo fsfsd [  ]
+event ad /at 2pm [  ]
+deadline ds /by tuesdayu [✅]

@@ -17,7 +17,7 @@ public class CommandDone extends Command {
     @Override
     public void execute(TaskList tasks, TextUi ui, Storage storage) throws SaveDataOperationException {
         try {
-            int completedTaskNo = new Parser().prepareForDoneOrDelete(userInput, "done ", tasks.getTotalNoOfTasks());
+            int completedTaskNo = new Parser().prepareForDone(tasks, userInput);
             tasks.completeTask(completedTaskNo);
             ui.showDoneResponse(tasks, completedTaskNo);
             storage.saveData(tasks);

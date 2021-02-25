@@ -1,5 +1,6 @@
 package duke.command;
 
+import duke.exception.EmptyListException;
 import duke.exception.InvalidCommandException;
 import duke.exception.SaveDataOperationException;
 import duke.parser.Parser;
