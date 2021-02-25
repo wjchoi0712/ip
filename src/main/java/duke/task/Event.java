@@ -1,11 +1,11 @@
 package duke.task;
 
 public class Event extends Task {
-    protected String eventTime;
+    protected String eventDate;
 
     public Event(String description, String eventTime) {
         super(description);
-        this.eventTime = eventTime;
+        this.eventDate = eventTime;
     }
 
     @Override
@@ -15,11 +15,11 @@ public class Event extends Task {
 
     @Override
     public String getDescription() {
-        return super.getDescription() + " /at " + eventTime;
+        return super.getDescription() + " /at " + eventDate;
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at: " + eventTime + ")";
+        return "[E]" + super.toString() + " (at: " + eventDate + ")";
     }
 }
