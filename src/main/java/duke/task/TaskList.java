@@ -1,9 +1,13 @@
 package duke.task;
 
 import duke.command.CommandType;
+
+import duke.exception.descriptionException.InvalidDeadlineDescriptionException;
+import duke.exception.descriptionException.InvalidDescriptionException;
+import duke.exception.descriptionException.InvalidEventDescriptionException;
+import duke.exception.descriptionException.NoDescriptionException;
+
 import duke.parser.Parser;
-import duke.exception.InvalidDescriptionException;
-import duke.exception.NoDescriptionException;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,10 @@ public class TaskList {
         return tasks.get(index);
     }
 
+    public boolean isEmpty() {
+        return tasks.size() == 0;
+    }
+
     public Task getLastTaskInTheList() {
         return tasks.get(tasks.size() - 1);
     }
@@ -31,29 +39,20 @@ public class TaskList {
         return tasks.size();
     }
 
-    public boolean isEmpty() {
-        return tasks.size() == 0;
-    }
-
-    public void addTask(String userInput, CommandType commandType) throws NoDescriptionException, InvalidDescriptionException {
-        String[] taskComponents = new Parser().prepareForAdd(userInput);
+    public void addTask(String userInput, CommandType commandType) throws NoDescriptionException, InvalidDescriptionException, InvalidDeadlineDescriptionException, InvalidEventDescriptionException {
+        String[] taskComponents;
         switch (commandType) {
         case TODO:
-            tasks.add(new ToDo(taskComponents[0]));
+            String taskDescription = new Parser().prepareForAddTodo(userInput);
+            tasks.add(new ToDo(taskDescription));
             break;
         case DEADLINE:
-            if (taskComponents[1].length() > 0) {
-                tasks.add(new Deadline(taskComponents[0], taskComponents[1]));
-            } else {
-                throw new InvalidDescriptionException();
-            }
+            taskComponents = new Parser().prepareForAddDeadline(userInput);
+            tasks.add(new Deadline(taskComponents[0], taskComponents[1]));
             break;
         case EVENT:
-            if (taskComponents[2].length() > 0) {
-                tasks.add(new Event(taskComponents[0], taskComponents[2]));
-            } else {
-                throw new InvalidDescriptionException();
-            }
+            taskComponents = new Parser().prepareForAddEvent(userInput);
+            tasks.add(new Event(taskComponents[0], taskComponents[2]));
             break;
         }
     }

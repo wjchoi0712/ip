@@ -1,7 +1,7 @@
 package duke.ui;
 
-import duke.exception.EmptyListException;
 import duke.exception.NoMatchingTaskException;
+import duke.exception.commandException.EmptyListException;
 import duke.task.TaskList;
 
 import java.io.InputStream;

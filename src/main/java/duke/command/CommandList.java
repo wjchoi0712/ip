@@ -1,7 +1,7 @@
 package duke.command;
 
-import duke.exception.EmptyListException;
-import duke.exception.InvalidCommandException;
+import duke.exception.commandException.EmptyListException;
+import duke.exception.commandException.InvalidCommandException;
 import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.TextUi;
