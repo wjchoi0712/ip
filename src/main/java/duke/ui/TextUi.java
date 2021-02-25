@@ -1,5 +1,6 @@
 package duke.ui;
 
+import duke.exception.NoMatchingTaskException;
 import duke.exception.commandException.EmptyListException;
 import duke.task.TaskList;
 
@@ -15,10 +16,11 @@ public class TextUi {
             + "|  _ \\ _   _| | _____\n"
             + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n"
-            + "|____/ \\__,_|_|\\_\\___|\n\n";
+            + "|____/ \\__,_|_|\\_\\___|\n";
     private static final String MESSAGE_GREETING = " Hello! I'm Duke" + "\n What can I do for you?";
     private static final String MESSAGE_ENDING = " Bye. Hope to see you again soon!";
     private static final String MESSAGE_LISTTASK = " Here are the tasks in your list:";
+    private static final String MESSAGE_FINDTASK = " Here are the matching tasks in your list:";
     private static final String MESSAGE_ADDTASK = " Got it. I've added this task:";
     private static final String MESSAGE_DELETETASK = " Noted. I've removed this task:";
     private static final String MESSAGE_REMAININGTASK = " Now you have %d tasks in the list.";
@@ -56,16 +58,19 @@ public class TextUi {
         return in.nextLine();
     }
 
-    public void showTaskList(TaskList tasks) throws EmptyListException {
-        boolean isEmpty = (tasks.getTotalNoOfTasks() == 0);
-        if (!isEmpty) {
-            out.println(DIVIDER + LS + MESSAGE_LISTTASK);
-            for (int i = 0; i < tasks.getTotalNoOfTasks(); i++) {
-                out.println(" " + (i + 1) + ". " + tasks.getTask(i).toString());
-            }
-            out.println(DIVIDER);
+    public void showListResponse(TaskList tasks) throws EmptyListException {
+        if (!tasks.isEmpty()) {
+            showToUser(MESSAGE_LISTTASK, tasks.getTaskListAsString());
         } else {
             throw new EmptyListException();
+        }
+    }
+
+    public void showFindResponse(TaskList matchingTasks) throws NoMatchingTaskException {
+        if (!matchingTasks.isEmpty()) {
+            showToUser(MESSAGE_FINDTASK, matchingTasks.getTaskListAsString());
+        } else {
+            throw new NoMatchingTaskException();
         }
     }
 

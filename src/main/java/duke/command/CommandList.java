@@ -12,9 +12,10 @@ public class CommandList extends Command {
         super(userInput);
     }
 
+    @Override
     public void execute(TaskList tasks, TextUi ui, Storage storage) {
         try {
-            ui.showTaskList(tasks);
+            ui.showListResponse(tasks);
         } catch (EmptyListException ele) {
             ui.showToUser(ele.getMessage());
         }

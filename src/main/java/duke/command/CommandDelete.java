@@ -15,7 +15,7 @@ public class CommandDelete extends Command {
 
     public void execute(TaskList tasks, TextUi ui, Storage storage) throws SaveDataOperationException {
         try {
-            int deletedTaskNo = new Parser().prepareForDoneOrDelete(userInput, "delete ", tasks.getTotalNoOfTasks());
+            int deletedTaskNo = new Parser().prepareForDelete(tasks, userInput);
             ui.showDeleteResponse(tasks, deletedTaskNo);
             tasks.deleteTask(deletedTaskNo);
             storage.saveData(tasks);
