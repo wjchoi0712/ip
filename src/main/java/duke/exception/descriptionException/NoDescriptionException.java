@@ -1,6 +1,6 @@
-package duke.exception;
+package duke.exception.descriptionException;
 
-public class NoDescriptionException extends DukeException {
+public class NoDescriptionException extends DescriptionException {
     @Override
     public String getMessage() {
         return " OOPS! Description of a task cannot be empty!";

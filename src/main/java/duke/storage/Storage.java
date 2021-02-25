@@ -1,8 +1,8 @@
 package duke.storage;
 
-import duke.exception.InvalidFilePathException;
-import duke.exception.LoadDataOperationException;
-import duke.exception.SaveDataOperationException;
+import duke.exception.storageException.InvalidFilePathException;
+import duke.exception.storageException.LoadDataOperationException;
+import duke.exception.storageException.SaveDataOperationException;
 import duke.task.TaskList;
 
 import java.io.IOException;

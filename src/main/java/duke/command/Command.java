@@ -1,7 +1,7 @@
 package duke.command;
 
-import duke.exception.InvalidCommandException;
-import duke.exception.SaveDataOperationException;
+import duke.exception.commandException.InvalidCommandException;
+import duke.exception.storageException.SaveDataOperationException;
 import duke.parser.Parser;
 import duke.storage.Storage;
 import duke.task.TaskList;
@@ -25,10 +25,10 @@ public class Command {
         this.commandType = commandType;
     }
 
-    public void execute(TaskList tasks, TextUi ui, Storage storage) throws SaveDataOperationException {
-    }
-
     public boolean isExit() {
         return commandType == CommandType.BYE;
+    }
+
+    public void execute(TaskList tasks, TextUi ui, Storage storage) throws SaveDataOperationException {
     }
 }

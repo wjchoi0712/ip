@@ -1,4 +1,6 @@
-package duke.exception;
+package duke.exception.commandException;
+
+import duke.exception.DukeException;
 
 public class EmptyListException extends DukeException {
     @Override

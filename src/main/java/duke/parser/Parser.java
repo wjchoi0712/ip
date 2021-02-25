@@ -1,9 +1,16 @@
 package duke.parser;
 
 import duke.command.*;
-import duke.exception.InvalidCommandException;
-import duke.exception.InvalidTaskNoException;
-import duke.exception.NoDescriptionException;
+import duke.exception.commandException.InvalidCommandException;
+import duke.exception.commandException.InvalidTaskNoException;
+import duke.exception.descriptionException.InvalidDeadlineDescriptionException;
+import duke.exception.descriptionException.InvalidDescriptionException;
+import duke.exception.descriptionException.InvalidEventDescriptionException;
+import duke.exception.descriptionException.NoDescriptionException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Parser {
     private static final String CONDITIONFORDEADLINE = "/by";
@@ -71,39 +78,56 @@ public class Parser {
         }
     }
 
-    public String[] prepareForAdd(String userInput) throws NoDescriptionException {
-        String[] taskComponent = {"", "", ""};
-        if (userInput.contains(" ")) {
-            taskComponent[0] = getDescriptionOfTask(userInput);
-            if (taskComponent[0].contains(CONDITIONFORDEADLINE)) {
-                taskComponent = separateDescriptionAndTime(taskComponent[0], CONDITIONFORDEADLINE);
-            } else if (taskComponent[0].contains(CONDITIONFOREVENT)) {
-                taskComponent = separateDescriptionAndTime(taskComponent[0], CONDITIONFOREVENT);
+    public String prepareForAddTodo(String userInput) throws NoDescriptionException {
+        try {
+            String taskDescription = userInput.substring(userInput.indexOf(" "));
+            if (taskDescription.isBlank()) {
+                throw new NoDescriptionException();
+            } else {
+                return taskDescription.strip();
             }
-        } else {
+        } catch (StringIndexOutOfBoundsException e) {
             throw new NoDescriptionException();
         }
-        return taskComponent;
     }
 
-    public String getDescriptionOfTask(String userInput) {
-        return userInput.substring(userInput.indexOf(" ") + 1);
+    public String[] prepareForAddDeadline(String userInput) throws InvalidDescriptionException, NoDescriptionException, InvalidDeadlineDescriptionException {
+        String taskDescription = prepareForAddTodo(userInput);
+        if (userInput.contains(CONDITIONFORDEADLINE)) {
+            return separateDescriptionAndTime(taskDescription);
+        } else {
+            throw new InvalidDeadlineDescriptionException();
+        }
     }
 
-    public String[] separateDescriptionAndTime(String description, String condition) {
-        String[] inputs = new String[3];
-        //Extract out just the task description
-        inputs[0] = description.substring(0, description.indexOf("/") - 1);
+    public String[] prepareForAddEvent(String userInput) throws InvalidDescriptionException, NoDescriptionException, InvalidEventDescriptionException {
+        String taskDescription = prepareForAddTodo(userInput);
+        if (userInput.contains(CONDITIONFOREVENT)) {
+            return separateDescriptionAndTime(taskDescription);
+        } else {
+            throw new InvalidEventDescriptionException();
+        }
+    }
 
-        //Extract out the time component
-        String time = description.substring(description.indexOf("/") + 4);
+    public String[] separateDescriptionAndTime(String description) throws InvalidDescriptionException {
+        String[] inputs = new String[2];
+        boolean isDescriptionEmpty = description.indexOf("/") == 0;
+        boolean isTimeEmpty = description.indexOf("/") + 4 == description.length() + 1;
 
-        switch (condition) {
-        case CONDITIONFORDEADLINE:
-            inputs[1] = time;
-            break;
-        case CONDITIONFOREVENT:
-            inputs[2] = time;
+        if (!isDescriptionEmpty && !isTimeEmpty) {
+            //Extract out just the task description
+            inputs[0] = description.substring(0, description.indexOf("/") - 1);
+
+            //Extract out the time component
+            String time = description.substring(description.indexOf("/") + 4);
+            try {
+                LocalDate dueDate = LocalDate.parse(time);
+                inputs[1] = dueDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+            } catch (DateTimeParseException e) {
+                inputs[1] = time;
+            }
+        } else {
+            throw new InvalidDescriptionException();
         }
         return inputs;
     }

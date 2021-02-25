@@ -1,10 +1,12 @@
 package duke.storage;
 
 import duke.command.CommandType;
-import duke.exception.InvalidCommandException;
-import duke.exception.InvalidDescriptionException;
-import duke.exception.LoadDataOperationException;
-import duke.exception.NoDescriptionException;
+import duke.exception.commandException.InvalidCommandException;
+import duke.exception.descriptionException.InvalidDeadlineDescriptionException;
+import duke.exception.descriptionException.InvalidDescriptionException;
+import duke.exception.descriptionException.InvalidEventDescriptionException;
+import duke.exception.descriptionException.NoDescriptionException;
+import duke.exception.storageException.LoadDataOperationException;
 import duke.parser.Parser;
 import duke.task.TaskList;
 
@@ -14,8 +16,8 @@ import java.util.Scanner;
 
 public class TaskFileDecoder {
     public TaskList decodeTaskData(Path path) throws LoadDataOperationException {
+        TaskList tasks = new TaskList();
         try {
-            TaskList tasks = new TaskList();
             Scanner taskData = new Scanner(path);
             while (taskData.hasNext()) {
                 String data = taskData.nextLine();
@@ -26,11 +28,14 @@ public class TaskFileDecoder {
                     tasks.getTask(tasks.getTotalNoOfTasks() - 1).markAsDone();
                 }
             }
-            return tasks;
         } catch (IOException | InvalidCommandException | NoDescriptionException | InvalidDescriptionException e) {
             throw new LoadDataOperationException();
+        } catch (InvalidEventDescriptionException e) {
+            e.printStackTrace();
+        } catch (InvalidDeadlineDescriptionException e) {
+            e.printStackTrace();
         }
-
+        return tasks;
     }
 
     public String[] separateTaskDescriptionAndStatus(String data) {
