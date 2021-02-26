@@ -1,7 +1,7 @@
 package duke.ui;
 
-import duke.exception.NoMatchingTaskException;
-import duke.exception.commandException.EmptyListException;
+import duke.exception.action.EmptyListException;
+import duke.exception.action.NoMatchingTaskException;
 import duke.task.TaskList;
 
 import java.io.InputStream;
@@ -9,7 +9,6 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 public class TextUi {
-    private static final String LS = System.lineSeparator();
     private static final String DIVIDER = "____________________________________________________________";
     private static final String LINE_PREFIX = "   ";
     private static final String LOGO = " ____        _\n"

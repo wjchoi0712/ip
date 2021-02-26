@@ -2,10 +2,10 @@ package duke.task;
 
 import duke.command.CommandType;
 
-import duke.exception.descriptionException.InvalidDeadlineDescriptionException;
-import duke.exception.descriptionException.InvalidDescriptionException;
-import duke.exception.descriptionException.InvalidEventDescriptionException;
-import duke.exception.descriptionException.NoDescriptionException;
+import duke.exception.description.InvalidDeadlineDescriptionException;
+import duke.exception.description.InvalidDescriptionException;
+import duke.exception.description.InvalidEventDescriptionException;
+import duke.exception.description.NoDescriptionException;
 
 import duke.parser.Parser;
 
@@ -39,7 +39,7 @@ public class TaskList {
         return tasks.size();
     }
 
-    public void addTask(String userInput, CommandType commandType) throws NoDescriptionException, InvalidDescriptionException, InvalidDeadlineDescriptionException, InvalidEventDescriptionException {
+    public void addTask(CommandType commandType, String userInput) throws NoDescriptionException, InvalidDescriptionException, InvalidDeadlineDescriptionException, InvalidEventDescriptionException {
         String[] taskComponents;
         switch (commandType) {
         case TODO:

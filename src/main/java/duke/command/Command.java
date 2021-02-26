@@ -1,7 +1,7 @@
 package duke.command;
 
-import duke.exception.commandException.InvalidCommandException;
-import duke.exception.storageException.SaveDataOperationException;
+import duke.exception.action.InvalidCommandException;
+import duke.exception.data.SaveDataOperationException;
 import duke.parser.Parser;
 import duke.storage.Storage;
 import duke.task.TaskList;

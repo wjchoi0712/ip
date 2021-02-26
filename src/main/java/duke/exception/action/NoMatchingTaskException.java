@@ -1,4 +1,6 @@
-package duke.exception;
+package duke.exception.action;
+
+import duke.exception.DukeException;
 
 public class NoMatchingTaskException extends DukeException {
     public String getMessage() {

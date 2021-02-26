@@ -1,4 +1,4 @@
-package duke.exception.storageException;
+package duke.exception.data;
 
 public class InvalidFilePathException extends  StorageOperationException {
     public String getMessage() {

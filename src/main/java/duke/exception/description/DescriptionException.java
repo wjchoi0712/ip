@@ -1,4 +1,4 @@
-package duke.exception.descriptionException;
+package duke.exception.description;
 
 import duke.exception.DukeException;
 

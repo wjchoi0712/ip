@@ -1,4 +1,4 @@
-package duke.exception.storageException;
+package duke.exception.data;
 
 import duke.exception.DukeException;
 

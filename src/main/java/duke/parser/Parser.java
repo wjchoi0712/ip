@@ -2,13 +2,13 @@ package duke.parser;
 
 import duke.command.*;
 
-import duke.exception.commandException.DoneTaskException;
-import duke.exception.commandException.InvalidCommandException;
-import duke.exception.commandException.InvalidTaskNoException;
-import duke.exception.descriptionException.InvalidDeadlineDescriptionException;
-import duke.exception.descriptionException.InvalidDescriptionException;
-import duke.exception.descriptionException.InvalidEventDescriptionException;
-import duke.exception.descriptionException.NoDescriptionException;
+import duke.exception.action.DoneTaskException;
+import duke.exception.action.InvalidCommandException;
+import duke.exception.action.InvalidTaskNoException;
+import duke.exception.description.InvalidDeadlineDescriptionException;
+import duke.exception.description.InvalidDescriptionException;
+import duke.exception.description.InvalidEventDescriptionException;
+import duke.exception.description.NoDescriptionException;
 import duke.task.Task;
 import duke.task.TaskList;
 
@@ -19,6 +19,36 @@ import java.time.format.DateTimeParseException;
 public class Parser {
     private static final String CONDITIONFORDEADLINE = "/by";
     private static final String CONDITIONFOREVENT = "/at";
+
+    public static Command prepareForCommandExecution(String userInput) throws InvalidCommandException {
+        Command command = new Command(userInput);
+        command.setCommandType(scanCommandType(userInput));
+        switch (command.getCommandType()) {
+        case BYE:
+            command = new ByeCommand(userInput);
+            break;
+        case LIST:
+            command = new ListCommand(userInput);
+            break;
+        case DONE:
+            command = new DoneCommand(userInput);
+            break;
+        case DELETE:
+            command = new DeleteCommand(userInput);
+            break;
+        case FIND:
+            command = new FindCommand(userInput);
+            break;
+        case TODO:
+        case EVENT:
+        case DEADLINE:
+            command = new AddCommand(userInput);
+            break;
+        default:
+            throw new InvalidCommandException();
+        }
+        return command;
+    }
 
     public static CommandType scanCommandType(String userInput) throws InvalidCommandException {
         CommandType commandType;
@@ -42,36 +72,6 @@ public class Parser {
             throw new InvalidCommandException();
         }
         return commandType;
-    }
-
-    public static Command prepareForCommandExecution(String userInput) throws InvalidCommandException {
-        Command command = new Command(userInput);
-        command.setCommandType(scanCommandType(userInput));
-        switch (command.getCommandType()) {
-        case BYE:
-            command = new CommandBye(userInput);
-            break;
-        case LIST:
-            command = new CommandList(userInput);
-            break;
-        case DONE:
-            command = new CommandDone(userInput);
-            break;
-        case DELETE:
-            command = new CommandDelete(userInput);
-            break;
-        case FIND:
-            command = new CommandFind(userInput);
-            break;
-        case TODO:
-        case EVENT:
-        case DEADLINE:
-            command = new CommandAdd(userInput);
-            break;
-        default:
-            throw new InvalidCommandException();
-        }
-        return command;
     }
 
     public boolean isWithinBound(TaskList tasks, int taskNo) {
@@ -141,14 +141,11 @@ public class Parser {
 
     public String[] separateDescriptionAndTime(String description) throws InvalidDescriptionException {
         String[] inputs = new String[2];
-        boolean isDescriptionEmpty = description.indexOf("/") == 0;
-        boolean isTimeEmpty = description.indexOf("/") + 4 == description.length() + 1;
+        boolean isDescriptionEmpty = (description.indexOf("/") == 0);
+        boolean isTimeEmpty = (description.indexOf("/") + 4 == description.length() + 1);
 
         if (!isDescriptionEmpty && !isTimeEmpty) {
-            //Extract out just the task description
             inputs[0] = description.substring(0, description.indexOf("/") - 1);
-
-            //Extract out the time component
             String time = description.substring(description.indexOf("/") + 4);
             try {
                 LocalDate dueDate = LocalDate.parse(time);

@@ -1,4 +1,4 @@
-package duke.exception.commandException;
+package duke.exception.action;
 
 import duke.exception.DukeException;
 

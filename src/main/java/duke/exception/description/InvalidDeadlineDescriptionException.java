@@ -1,4 +1,4 @@
-package duke.exception.descriptionException;
+package duke.exception.description;
 
 public class InvalidDeadlineDescriptionException extends DescriptionException {
     public String getMessage() {

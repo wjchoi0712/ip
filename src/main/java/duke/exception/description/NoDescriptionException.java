@@ -1,4 +1,4 @@
-package duke.exception.descriptionException;
+package duke.exception.description;
 
 public class NoDescriptionException extends DescriptionException {
     @Override

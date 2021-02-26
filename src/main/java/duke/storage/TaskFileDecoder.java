@@ -1,12 +1,9 @@
 package duke.storage;
 
 import duke.command.CommandType;
-import duke.exception.commandException.InvalidCommandException;
-import duke.exception.descriptionException.InvalidDeadlineDescriptionException;
-import duke.exception.descriptionException.InvalidDescriptionException;
-import duke.exception.descriptionException.InvalidEventDescriptionException;
-import duke.exception.descriptionException.NoDescriptionException;
-import duke.exception.storageException.LoadDataOperationException;
+import duke.exception.action.InvalidCommandException;
+import duke.exception.data.LoadDataOperationException;
+import duke.exception.description.DescriptionException;
 import duke.parser.Parser;
 import duke.task.TaskList;
 
@@ -18,22 +15,18 @@ public class TaskFileDecoder {
     public TaskList decodeTaskData(Path path) throws LoadDataOperationException {
         TaskList tasks = new TaskList();
         try {
-            Scanner taskData = new Scanner(path);
-            while (taskData.hasNext()) {
-                String data = taskData.nextLine();
+            Scanner s = new Scanner(path);
+            while (s.hasNext()) {
+                String data = s.nextLine();
                 CommandType commandType = Parser.scanCommandType(data);
                 String[] inputs = separateTaskDescriptionAndStatus(data);
-                tasks.addTask(inputs[0], commandType);
+                tasks.addTask(commandType, inputs[0]);
                 if (inputs[1].equals("\u2705")) {
-                    tasks.getTask(tasks.getTotalNoOfTasks() - 1).markAsDone();
+                    tasks.getLastTaskInTheList().markAsDone();
                 }
             }
-        } catch (IOException | InvalidCommandException | NoDescriptionException | InvalidDescriptionException e) {
+        } catch (IOException | InvalidCommandException | DescriptionException e) {
             throw new LoadDataOperationException();
-        } catch (InvalidEventDescriptionException e) {
-            e.printStackTrace();
-        } catch (InvalidDeadlineDescriptionException e) {
-            e.printStackTrace();
         }
         return tasks;
     }

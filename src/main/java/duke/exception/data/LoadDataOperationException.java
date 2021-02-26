@@ -1,4 +1,4 @@
-package duke.exception.storageException;
+package duke.exception.data;
 
 public class LoadDataOperationException extends StorageOperationException {
     public String getMessage() {

@@ -1,13 +1,13 @@
 package duke.command;
 
-import duke.exception.commandException.InvalidCommandException;
+import duke.exception.action.InvalidCommandException;
 import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.TextUi;
 
-public class CommandBye extends Command {
+public class ByeCommand extends Command {
 
-    public CommandBye(String userInput) throws InvalidCommandException {
+    public ByeCommand(String userInput) throws InvalidCommandException {
         super(userInput);
     }
 

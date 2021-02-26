@@ -1,6 +1,6 @@
 package duke.storage;
 
-import duke.exception.storageException.SaveDataOperationException;
+import duke.exception.data.SaveDataOperationException;
 import duke.task.Task;
 import duke.task.TaskList;
 

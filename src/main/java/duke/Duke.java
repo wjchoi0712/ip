@@ -1,10 +1,10 @@
 package duke;
 
 import duke.command.Command;
-import duke.exception.commandException.InvalidCommandException;
-import duke.exception.storageException.InvalidFilePathException;
-import duke.exception.storageException.SaveDataOperationException;
-import duke.exception.storageException.StorageOperationException;
+import duke.exception.action.InvalidCommandException;
+import duke.exception.data.InvalidFilePathException;
+import duke.exception.data.SaveDataOperationException;
+import duke.exception.data.StorageOperationException;
 import duke.parser.Parser;
 import duke.storage.Storage;
 import duke.task.TaskList;
@@ -35,7 +35,7 @@ public class Duke {
         Storage storage = new Storage(filePath);
         storage.createDirectory();
         storage.createFile();
-        return new Storage(filePath);
+        return storage;
     }
 
     public static void runCommandLoopUntilExitCommand() throws SaveDataOperationException {

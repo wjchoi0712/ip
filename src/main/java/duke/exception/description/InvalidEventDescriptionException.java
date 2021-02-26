@@ -1,4 +1,4 @@
-package duke.exception.descriptionException;
+package duke.exception.description;
 
 public class InvalidEventDescriptionException extends DescriptionException {
     public String getMessage() {

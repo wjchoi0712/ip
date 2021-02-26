@@ -1,16 +1,16 @@
 package duke.command;
 
-import duke.exception.commandException.DoneTaskException;
-import duke.exception.commandException.InvalidCommandException;
-import duke.exception.commandException.InvalidTaskNoException;
-import duke.exception.storageException.SaveDataOperationException;
+import duke.exception.action.DoneTaskException;
+import duke.exception.action.InvalidCommandException;
+import duke.exception.action.InvalidTaskNoException;
+import duke.exception.data.SaveDataOperationException;
 import duke.parser.Parser;
 import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.TextUi;
 
-public class CommandDone extends Command {
-    public CommandDone(String userInput) throws InvalidCommandException {
+public class DoneCommand extends Command {
+    public DoneCommand(String userInput) throws InvalidCommandException {
         super(userInput);
     }
 
