@@ -81,7 +81,7 @@ public class Storage {
      * Decodes and returns the {@link TaskList} that is encoded in the storage file
      *
      * @return tasks task list that has been decoded
-     * @throws LoadDataOperationException if there is error while decoding the saved data
+     * @throws LoadDataOperationException if there is error while reading/ decoding the saved data
      */
     public TaskList loadData() throws LoadDataOperationException {
         TaskList tasks = new TaskList();

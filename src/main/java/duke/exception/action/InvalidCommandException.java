@@ -2,6 +2,9 @@ package duke.exception.action;
 
 import duke.exception.DukeException;
 
+/**
+ * Signals that the user's command is not one of the {@link duke.command.CommandType}
+ */
 public class InvalidCommandException extends DukeException {
     @Override
     public String getMessage() {

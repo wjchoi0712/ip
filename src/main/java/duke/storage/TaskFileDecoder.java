@@ -16,7 +16,7 @@ import duke.task.ToDo;
 public class TaskFileDecoder {
 
     /**
-     * Decodes and return the decoded {@link Task}
+     * Decodes stored data and returns the decoded {@link Task}
      * The methods in {@link Parser} are used to decode the data.
      */
     public Task decodeTaskData(String data) throws InvalidDescriptionException, InvalidDeadlineDescriptionException,
