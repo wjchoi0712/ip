@@ -1,32 +1,31 @@
 package duke.command;
 
-import duke.exception.action.InvalidCommandException;
 import duke.exception.data.SaveDataOperationException;
-import duke.parser.Parser;
 import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.TextUi;
 
+/**
+ * Represents an executable command.
+ */
 public class Command {
 
-    protected CommandType commandType;
     protected String userInput;
 
-    public Command(String userInput) throws InvalidCommandException {
+    /**
+     * Constructs a command object to be processed.
+     *
+     * @param userInput full command of the user
+     */
+    public Command(String userInput) {
         this.userInput = userInput;
-        this.commandType = Parser.scanCommandType(userInput);
     }
 
-    public CommandType getCommandType() {
-        return commandType;
-    }
-
-    public void setCommandType(CommandType commandType) {
-        this.commandType = commandType;
-    }
-
+    /**
+     * Checks whether application should be closed
+     */
     public boolean isExit() {
-        return commandType == CommandType.BYE;
+        return false;
     }
 
     public void execute(TaskList tasks, TextUi ui, Storage storage) throws SaveDataOperationException {

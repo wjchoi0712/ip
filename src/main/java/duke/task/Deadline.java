@@ -5,7 +5,7 @@ package duke.task;
  * Unlike ToDo type, Deadline task has an extra component of time, which represents the due date of the task.
  */
 public class Deadline extends Task {
-    private String dueDate;
+    protected String dueDate;
 
     /**
      * Constructs an Deadline task from a String of description and the due date of the task.

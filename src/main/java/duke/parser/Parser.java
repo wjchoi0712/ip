@@ -21,9 +21,9 @@ public class Parser {
     private static final String CONDITIONFOREVENT = "/at";
 
     public static Command prepareForCommandExecution(String userInput) throws InvalidCommandException {
-        Command command = new Command(userInput);
-        command.setCommandType(scanCommandType(userInput));
-        switch (command.getCommandType()) {
+        Command command;
+        CommandType commandType = Parser.scanCommandType(userInput);
+        switch (commandType) {
         case BYE:
             command = new ByeCommand(userInput);
             break;
@@ -42,7 +42,7 @@ public class Parser {
         case TODO:
         case EVENT:
         case DEADLINE:
-            command = new AddCommand(userInput);
+            command = new AddCommand(userInput, commandType);
             break;
         default:
             throw new InvalidCommandException();

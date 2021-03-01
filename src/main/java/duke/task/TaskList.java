@@ -77,6 +77,7 @@ public class TaskList {
      */
     public void addTask(CommandType commandType, String userInput) throws NoDescriptionException,
             InvalidDescriptionException, InvalidDeadlineDescriptionException, InvalidEventDescriptionException {
+
         //Container to carry task description and task time
         String[] taskComponents;
 
