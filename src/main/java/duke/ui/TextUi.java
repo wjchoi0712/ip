@@ -63,23 +63,17 @@ public class TextUi {
         out.println(DIVIDER);
     }
 
-    /**
-     * Generates and prints the welcome message upon the start of the application.
-     */
+    /** Generates and prints the welcome message upon the start of the application. */
     public void showGreetingMessage() {
         showToUser(LOGO, MESSAGE_GREETING);
     }
 
-    /**
-     * Generates and prints the terminating message upon receiving bye command from the user
-     */
+    /** Generates and prints the terminating message upon receiving bye command from the user. */
     public void showEndingMessage() {
         showToUser(MESSAGE_ENDING);
     }
 
-    /**
-     * Returns the full command input by the user
-     */
+    /** Returns the full command input by the user */
     public String getUserCommand() {
         return in.nextLine();
     }

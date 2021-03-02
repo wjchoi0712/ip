@@ -21,9 +21,7 @@ public class Command {
         this.userInput = userInput;
     }
 
-    /**
-     * Checks whether application should be closed
-     */
+    /** Checks whether application should be closed */
     public boolean isExit() {
         return false;
     }

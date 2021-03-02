@@ -10,6 +10,10 @@ import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.TextUi;
 
+/**
+ * Entry point of the Duke application.
+ * Initializes the application and starts the interaction with the user.
+ */
 public class Duke {
     private static TextUi ui;
     private static Storage storage;
@@ -19,6 +23,7 @@ public class Duke {
         new Duke().run();
     }
 
+    /** Sets up and run the program */
     private void run() {
         try {
             this.ui = new TextUi();
@@ -31,6 +36,7 @@ public class Duke {
         }
     }
 
+    /** Creates new directory and file according to the {@code filepath} if it does not already exists. */
     private Storage initializeStorage(String filePath) throws InvalidFilePathException {
         Storage storage = new Storage(filePath);
         storage.createDirectory();
@@ -38,7 +44,8 @@ public class Duke {
         return storage;
     }
 
-    public static void runCommandLoopUntilExitCommand() throws SaveDataOperationException {
+    /** Reads the user command and executes it, until the user issues the bye command. */
+    private static void runCommandLoopUntilExitCommand() throws SaveDataOperationException {
         boolean isExit = false;
         while (!isExit) {
             try {

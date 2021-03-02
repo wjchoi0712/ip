@@ -3,7 +3,7 @@ package duke.exception.action;
 import duke.exception.DukeException;
 
 /**
- * Signals that the user's command is not one of the {@link duke.command.CommandType}
+ * Signals that the user's command is not one of the command type that the program can execute
  */
 public class InvalidCommandException extends DukeException {
     @Override

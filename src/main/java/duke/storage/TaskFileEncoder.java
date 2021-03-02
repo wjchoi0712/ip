@@ -16,7 +16,7 @@ public class TaskFileEncoder {
      * Encodes all the {@link Task} in the {@link TaskList} into a list of String
      *
      * @param tasks task list to be encoded
-     * @return encodedTaskList task list that has been encoded
+     * @return the task list that has been encoded
      */
     public ArrayList<String> encodeTaskData(TaskList tasks) {
         ArrayList<String> encodedTaskList = new ArrayList<>();

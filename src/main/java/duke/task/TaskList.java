@@ -1,6 +1,5 @@
 package duke.task;
 
-import duke.command.CommandType;
 import duke.exception.description.InvalidDeadlineDescriptionException;
 import duke.exception.description.InvalidDescriptionException;
 import duke.exception.description.InvalidEventDescriptionException;
@@ -30,37 +29,27 @@ public class TaskList {
         this.tasks = tasks;
     }
 
-    /**
-     * Returns true when the task list is empty
-     */
+    /** Returns true when the task list is empty */
     public boolean isEmpty() {
         return tasks.size() == 0;
     }
 
-    /**
-     * Returns a task at a specific index
-     */
+    /** Returns a task at a specific index */
     public Task getTask(int index) {
         return tasks.get(index);
     }
 
-    /**
-     * Returns the last task in the task list
-     */
+    /** Returns the last task in the task list */
     public Task getLastTaskInTheList() {
         return tasks.get(tasks.size() - 1);
     }
 
-    /**
-     * Returns the total number of tasks in the task list
-     */
+    /** Returns the total number of tasks in the task list */
     public int getTotalNoOfTasks() {
         return tasks.size();
     }
 
-    /**
-     * Adds a new task into task list
-     */
+    /** Adds a new task into task list */
     public void addTask(Task newTask) {
         tasks.add(newTask);
     }
@@ -75,22 +64,22 @@ public class TaskList {
      * @throws InvalidDeadlineDescriptionException if "/by" is not included in the user input for deadline task
      * @throws InvalidEventDescriptionException if "/at" is not included in the user input for deadline task
      */
-    public void addTask(CommandType commandType, String userInput) throws NoDescriptionException,
+    public void addTask(String commandType, String userInput) throws NoDescriptionException,
             InvalidDescriptionException, InvalidDeadlineDescriptionException, InvalidEventDescriptionException {
 
         //Container to carry task description and task time
         String[] taskComponents;
 
         switch (commandType) {
-        case TODO:
+        case "todo":
             String taskDescription = new Parser().prepareForAddTodo(userInput);
             tasks.add(new ToDo(taskDescription));
             break;
-        case DEADLINE:
+        case "deadline":
             taskComponents = new Parser().prepareForAddDeadline(userInput);
             tasks.add(new Deadline(taskComponents[0], taskComponents[1]));
             break;
-        case EVENT:
+        case "event":
             taskComponents = new Parser().prepareForAddEvent(userInput);
             tasks.add(new Event(taskComponents[0], taskComponents[1]));
             break;
@@ -116,9 +105,7 @@ public class TaskList {
     }
 
 
-    /**
-     * Returns a full list of tasks as String
-     */
+    /** Returns a full list of tasks as String */
     public String getTaskListAsString() {
         StringBuilder fullTaskList = new StringBuilder();
         for (int i = 0; i < tasks.size(); i++) {

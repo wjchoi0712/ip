@@ -49,7 +49,7 @@ public class TaskFileDecoder {
 
     /**
      * Separates and returns the task description and task status.
-     ** The first element of the {@code taskDescriptionAndStatus} contains the task description
+     * The first element of the {@code taskDescriptionAndStatus} contains the task description
      * and the second element contains task status
      */
     public String[] separateTaskDescriptionAndStatus(String data) {

@@ -1,7 +1,7 @@
 package duke.parser;
 
-import duke.command.*;
 
+import duke.command.*;
 import duke.exception.action.DoneTaskException;
 import duke.exception.action.InvalidCommandException;
 import duke.exception.action.InvalidTaskNoException;
@@ -16,68 +16,145 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Parses user input.
+ */
 public class Parser {
-    private static final String CONDITIONFORDEADLINE = "/by";
-    private static final String CONDITIONFOREVENT = "/at";
 
+    /**
+     * Parses user input into command for execution.
+     *
+     * @param userInput full user input string
+     * @return the command based on the user input
+     * @throws InvalidCommandException if user command is not one of the command type that the program can execute
+     */
     public static Command prepareForCommandExecution(String userInput) throws InvalidCommandException {
         Command command;
-        CommandType commandType = Parser.scanCommandType(userInput);
-        switch (commandType) {
-        case BYE:
+        if (userInput.equals("bye")) {
             command = new ByeCommand(userInput);
-            break;
-        case LIST:
-            command = new ListCommand(userInput);
-            break;
-        case DONE:
+        } else if (userInput.startsWith("todo")) {
+            command = new AddCommand(userInput, "todo");
+        } else if (userInput.startsWith("deadline")) {
+            command = new AddCommand(userInput, "deadline");
+        } else if (userInput.startsWith("event")) {
+            command = new AddCommand(userInput, "event");
+        } else if (userInput.startsWith("done")) {
             command = new DoneCommand(userInput);
-            break;
-        case DELETE:
+        } else if (userInput.startsWith("delete")) {
             command = new DeleteCommand(userInput);
-            break;
-        case FIND:
+        } else if (userInput.equals("list")) {
+            command = new ListCommand(userInput);
+        } else if (userInput.startsWith("find")) {
             command = new FindCommand(userInput);
-            break;
-        case TODO:
-        case EVENT:
-        case DEADLINE:
-            command = new AddCommand(userInput, commandType);
-            break;
-        default:
+        } else {
             throw new InvalidCommandException();
         }
         return command;
     }
 
-    public static CommandType scanCommandType(String userInput) throws InvalidCommandException {
-        CommandType commandType;
-        if (userInput.equals("bye")) {
-            commandType = CommandType.BYE;
-        } else if (userInput.equals("list")) {
-            commandType = CommandType.LIST;
-        } else if (userInput.startsWith("done")) {
-            commandType = CommandType.DONE;
-        } else if (userInput.startsWith("delete")) {
-            commandType = CommandType.DELETE;
-        } else if (userInput.startsWith("find")) {
-            commandType = CommandType.FIND;
-        } else if (userInput.startsWith("todo")) {
-            commandType = CommandType.TODO;
-        } else if (userInput.startsWith("deadline")) {
-            commandType = CommandType.DEADLINE;
-        } else if (userInput.startsWith("event")) {
-            commandType = CommandType.EVENT;
-        } else {
-            throw new InvalidCommandException();
+    /**
+     * Parses user input into task description for {@link duke.task.ToDo} task
+     *
+     * @param userInput full user input string
+     * @return the task description
+     * @throws NoDescriptionException if user input does not contain task description
+     */
+    public String prepareForAddTodo(String userInput) throws NoDescriptionException {
+        try {
+            String taskDescription = userInput.substring(userInput.indexOf(" "));
+            if (taskDescription.isBlank()) {
+                throw new NoDescriptionException();
+            } else {
+                return taskDescription.strip();
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new NoDescriptionException();
         }
-        return commandType;
     }
 
-    public boolean isWithinBound(TaskList tasks, int taskNo) {
-        return (taskNo <= tasks.getTotalNoOfTasks() && taskNo > 0);
+    private static final String CONDITION_FOR_DEADLINE = "/by";
+    private static final String CONDITION_FOR_EVENT = "/at";
+
+    /**
+     * Parses user input into task description and due date for {@link duke.task.Deadline} task
+     *
+     * @param userInput full user input string
+     * @return the task description and due date
+     * @throws NoDescriptionException if user input does not contain task description
+     * @throws InvalidDescriptionException if user input does not contain task description or due date
+     * @throws InvalidDeadlineDescriptionException if user input does not contain {@code CONDITION_FOR_DEADLINE}
+     */
+    public String[] prepareForAddDeadline(String userInput) throws InvalidDescriptionException,
+            NoDescriptionException, InvalidDeadlineDescriptionException {
+
+        String taskDescriptionAndDate = prepareForAddTodo(userInput);
+        if (userInput.contains(CONDITION_FOR_DEADLINE)) {
+            return separateDescriptionAndDate(taskDescriptionAndDate);
+        } else {
+            throw new InvalidDeadlineDescriptionException();
+        }
     }
 
+    /**
+     * Parses user input into task description and event date for {@link duke.task.Event} task
+     *
+     * @param userInput full user input string
+     * @return the task description and event date
+     * @throws NoDescriptionException if user input does not contain task description
+     * @throws InvalidDescriptionException if user input does not contain task description or event date
+     * @throws InvalidEventDescriptionException if user input does not contain {@code CONDITION_FOR_EVENT}
+     */
+    public String[] prepareForAddEvent(String userInput) throws InvalidDescriptionException,
+            NoDescriptionException, InvalidEventDescriptionException {
+
+        String taskDescriptionAndDate = prepareForAddTodo(userInput);
+        if (userInput.contains(CONDITION_FOR_EVENT)) {
+            return separateDescriptionAndDate(taskDescriptionAndDate);
+        } else {
+            throw new InvalidEventDescriptionException();
+        }
+    }
+
+    /**
+     * Separates the user input into task description and date component.
+     * Also parse the date into MMM D YYY format if date input by user is in YYYY-MM-DD format.
+     *
+     * @param descriptionAndDate a String containing both task description and task date
+     * @return the {@code taskComponents} containing task description and date as elements
+     * @throws InvalidDescriptionException if user input does not contain task description or date
+     */
+    public String[] separateDescriptionAndDate(String descriptionAndDate) throws InvalidDescriptionException {
+
+        //Container to carry the task description and date
+        String[] taskComponents = new String[2];
+
+        boolean isDescriptionEmpty = (descriptionAndDate.indexOf("/") == 0);
+        boolean isDateEmpty = (descriptionAndDate.indexOf("/") + 4 == descriptionAndDate.length() + 1);
+
+        if (!isDescriptionEmpty && !isDateEmpty) {
+            taskComponents[0] = descriptionAndDate.substring(0, descriptionAndDate.indexOf("/") - 1);
+            String date = descriptionAndDate.substring(descriptionAndDate.indexOf("/") + 4);
+            try {
+                LocalDate dueDate = LocalDate.parse(date);
+                taskComponents[1] = dueDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+            } catch (DateTimeParseException e) {
+                //When date input by the user is not in YYYY-MM-DD format, just store date as String
+                taskComponents[1] = date;
+            }
+        } else {
+            throw new InvalidDescriptionException();
+        }
+        return taskComponents;
+    }
+
+    /**
+     * Parses user input into task number to mark as done
+     *
+     * @param tasks task list containing the task to be mark as done
+     * @return the task number to be marked as done
+     * @throws InvalidTaskNoException if task number is out of bound or is not an integer
+     * @throws DoneTaskException if the task is already marked as done
+     */
     public int prepareForDone(TaskList tasks, String userInput) throws InvalidTaskNoException, DoneTaskException {
         try {
             int taskNo = Integer.parseInt(userInput.replace("done ", ""));
@@ -95,6 +172,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses user input into task number to delete
+     *
+     * @param tasks task list containing the task to be deleted
+     * @return the task number to be deleted
+     * @throws InvalidTaskNoException if task number is out of bound or is not an integer
+     */
     public int prepareForDelete(TaskList tasks, String userInput) throws InvalidTaskNoException {
         try {
             int taskNo = Integer.parseInt(userInput.replace("delete ", ""));
@@ -108,57 +192,17 @@ public class Parser {
         }
     }
 
-    public String prepareForAddTodo(String userInput) throws NoDescriptionException {
-        try {
-            String taskDescription = userInput.substring(userInput.indexOf(" "));
-            if (taskDescription.isBlank()) {
-                throw new NoDescriptionException();
-            } else {
-                return taskDescription.strip();
-            }
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new NoDescriptionException();
-        }
+    /** Returns true when the task number is an integer number that is within bound of the {@link TaskList} */
+    public boolean isWithinBound(TaskList tasks, int taskNo) {
+        return (taskNo <= tasks.getTotalNoOfTasks() && taskNo > 0);
     }
 
-    public String[] prepareForAddDeadline(String userInput) throws InvalidDescriptionException, NoDescriptionException, InvalidDeadlineDescriptionException {
-        String taskDescription = prepareForAddTodo(userInput);
-        if (userInput.contains(CONDITIONFORDEADLINE)) {
-            return separateDescriptionAndTime(taskDescription);
-        } else {
-            throw new InvalidDeadlineDescriptionException();
-        }
-    }
-
-    public String[] prepareForAddEvent(String userInput) throws InvalidDescriptionException, NoDescriptionException, InvalidEventDescriptionException {
-        String taskDescription = prepareForAddTodo(userInput);
-        if (userInput.contains(CONDITIONFOREVENT)) {
-            return separateDescriptionAndTime(taskDescription);
-        } else {
-            throw new InvalidEventDescriptionException();
-        }
-    }
-
-    public String[] separateDescriptionAndTime(String description) throws InvalidDescriptionException {
-        String[] inputs = new String[2];
-        boolean isDescriptionEmpty = (description.indexOf("/") == 0);
-        boolean isTimeEmpty = (description.indexOf("/") + 4 == description.length() + 1);
-
-        if (!isDescriptionEmpty && !isTimeEmpty) {
-            inputs[0] = description.substring(0, description.indexOf("/") - 1);
-            String time = description.substring(description.indexOf("/") + 4);
-            try {
-                LocalDate dueDate = LocalDate.parse(time);
-                inputs[1] = dueDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
-            } catch (DateTimeParseException e) {
-                inputs[1] = time;
-            }
-        } else {
-            throw new InvalidDescriptionException();
-        }
-        return inputs;
-    }
-
+    /**
+     * Select out the {@link Task} which contains the user's keyword in its description
+     *
+     * @param tasks task list to search for keyword
+     * @return the list of matching tasks
+     */
     public TaskList prepareForFind(TaskList tasks, String userInput) {
         TaskList matchingTasks = new TaskList();
         String keyword = userInput.replace("find ", "");

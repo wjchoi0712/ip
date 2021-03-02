@@ -15,9 +15,7 @@ public class ListCommand extends Command {
         super(userInput);
     }
 
-    /**
-     * Prints out the {@link Task} in the {@link TaskList}.
-     */
+    /** Prints out the {@link Task} in the {@link TaskList} */
     @Override
     public void execute(TaskList tasks, TextUi ui, Storage storage) {
         try {

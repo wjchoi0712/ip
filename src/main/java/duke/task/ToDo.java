@@ -13,9 +13,7 @@ public class ToDo extends Task {
         return super.getDescription();
     }
 
-    /**
-     * Returns a String representation of the task type
-     */
+    /** Returns a String representation of the task type */
     @Override
     public String getType() {
         return "todo";

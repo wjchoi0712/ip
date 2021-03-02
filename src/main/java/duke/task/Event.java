@@ -20,17 +20,13 @@ public class Event extends Task {
         this.eventDate = eventDate;
     }
 
-    /**
-     * Returns the task description and the date of the event
-     */
+    /** Returns the task description and the date of the event */
     @Override
     public String getDescription() {
         return super.getDescription() + " /at " + eventDate;
     }
 
-    /**
-     * Returns a String representation of the task type
-     */
+    /** Returns a String representation of the task type */
     @Override
     public String getType() {
         return "event";

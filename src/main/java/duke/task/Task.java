@@ -23,16 +23,12 @@ public class Task {
         return description;
     }
 
-    /**
-     * Returns true when the task has been completed.
-     */
+    /** Returns true when the task has been completed */
     public boolean isDone() {
         return isDone;
     }
 
-    /**
-     * Returns a String representation of the task type
-     */
+    /** Returns a String representation of the task type */
     public String getType() {
         return "task";
     }

@@ -20,17 +20,13 @@ public class Deadline extends Task {
         this.dueDate = dueDate;
     }
 
-    /**
-     * Returns the task description and the due date of the task
-     */
+    /** Returns the task description and the due date of the task */
     @Override
     public String getDescription() {
         return super.getDescription() + " /by " + dueDate;
     }
 
-    /**
-     * Returns a String representation of the task type
-     */
+    /** Returns a String representation of the task type */
     @Override
     public String getType() {
         return "deadline";

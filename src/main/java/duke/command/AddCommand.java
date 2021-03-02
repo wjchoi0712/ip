@@ -12,9 +12,9 @@ import duke.ui.TextUi;
  */
 public class AddCommand extends Command {
 
-    protected CommandType commandType;
+    protected String commandType;
 
-    public AddCommand(String userInput, CommandType commandType) {
+    public AddCommand(String userInput, String commandType) {
         super(userInput);
         this.commandType = commandType;
     }

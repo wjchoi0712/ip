@@ -15,9 +15,7 @@ public class FindCommand extends Command {
         super(userInput);
     }
 
-    /**
-     * Generates and prints out a {@link TaskList} of matching {@link Task}
-     */
+    /** Generates and prints out a {@link TaskList} of matching {@link Task} */
     @Override
     public void execute(TaskList tasks, TextUi ui, Storage storage) {
         try {
