@@ -12,6 +12,19 @@ import duke.ui.TextUi;
  */
 public class AddCommand extends Command {
 
+    public static final String LS = System.lineSeparator();
+    public static final String MESSAGE_USAGE = "- todo/ deadline/ event: Adds a task to the task list." + LS
+            + " Parameters:" + LS
+            + "  For todo: DESCRIPTION" + LS
+            + "  For deadline: DESCRIPTION /by DUEDATE" + LS
+            + "  For event: DESCRIPTION /by EVENTDATE" + LS
+            + " Example: " + LS
+            + "  todo smile" + LS
+            + "  deadline submit hw /by 2021-12-01" + LS
+            + "  event watch netflix /at 2021-12-01" + LS;
+
+    public static final String MESSAGE_SUCCESS = " Got it. I've added this task:";
+
     protected String commandType;
 
     public AddCommand(String userInput, String commandType) {

@@ -13,6 +13,13 @@ import duke.ui.TextUi;
  * Marks a specific {@link Task} in the {@link TaskList} as done.
  */
 public class DoneCommand extends Command {
+
+    public static final String LS = System.lineSeparator();
+    public static final String MESSAGE_USAGE = "- done: Marks the chosen task as done." + LS
+            + " Parameters: INDEX" + LS
+            + " Example: done 1" + LS;
+    public static final String MESSAGE_SUCCESS = "Nice! I've marked this task as done:";
+
     public DoneCommand(String userInput) {
         super(userInput);
     }

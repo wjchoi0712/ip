@@ -12,6 +12,13 @@ import duke.ui.TextUi;
  * Deletes a specific {@link Task} from the {@link TaskList}.
  */
 public class DeleteCommand extends Command {
+
+    public static final String LS = System.lineSeparator();
+    public static final String MESSAGE_USAGE = "- delete: Delete a chosen task from the task list." + LS
+            + " Parameters: INDEX" + LS
+            + " Example: delete 1" + LS;
+    public static final String MESSAGE_SUCCESS = " Noted. I've removed this task:";
+
     public DeleteCommand(String userInput) {
         super(userInput);
     }

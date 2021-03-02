@@ -11,6 +11,11 @@ import duke.ui.TextUi;
  */
 public class ListCommand extends Command {
 
+    public static final String LS = System.lineSeparator();
+    public static final String MESSAGE_USAGE = "- list: Shows all the tasks in the task list." + LS
+            + " Example: list" + LS;
+    public static final String MESSAGE_SUCCESS = " Here are the tasks in your list:";
+
     public ListCommand(String userInput) {
         super(userInput);
     }

@@ -50,6 +50,8 @@ public class Parser {
             command = new FindCommand(strippedUserInput);
         } else if (strippedUserInput.equals("clear")) {
             command = new ClearCommand(strippedUserInput);
+        } else if (strippedUserInput.equals("help")) {
+            command = new HelpCommand(strippedUserInput);
         } else {
             throw new InvalidCommandException();
         }

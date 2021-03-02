@@ -9,6 +9,10 @@ import duke.ui.TextUi;
  */
 public class ByeCommand extends Command {
 
+    private static final String LS = System.lineSeparator();
+    public static final String MESSAGE_USAGE = "- bye: Terminates the program." + LS
+            + " Example: bye";
+
     public ByeCommand(String userInput) {
         super(userInput);
     }
