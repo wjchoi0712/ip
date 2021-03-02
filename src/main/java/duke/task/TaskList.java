@@ -104,6 +104,11 @@ public class TaskList {
         tasks.remove(tasks.get(deletedTaskNo - 1));
     }
 
+    /** Deletes all the tasks in the task list */
+    public void clearTaskList() {
+        tasks.clear();
+    }
+
 
     /** Returns a full list of tasks as String */
     public String getTaskListAsString() {

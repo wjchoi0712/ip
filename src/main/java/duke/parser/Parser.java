@@ -30,22 +30,26 @@ public class Parser {
      */
     public static Command prepareForCommandExecution(String userInput) throws InvalidCommandException {
         Command command;
-        if (userInput.equals("bye")) {
-            command = new ByeCommand(userInput);
-        } else if (userInput.startsWith("todo")) {
-            command = new AddCommand(userInput, "todo");
-        } else if (userInput.startsWith("deadline")) {
-            command = new AddCommand(userInput, "deadline");
-        } else if (userInput.startsWith("event")) {
-            command = new AddCommand(userInput, "event");
-        } else if (userInput.startsWith("done")) {
-            command = new DoneCommand(userInput);
-        } else if (userInput.startsWith("delete")) {
-            command = new DeleteCommand(userInput);
-        } else if (userInput.equals("list")) {
-            command = new ListCommand(userInput);
-        } else if (userInput.startsWith("find")) {
-            command = new FindCommand(userInput);
+        String strippedUserInput = userInput.strip();
+
+        if (strippedUserInput.equals("bye")) {
+            command = new ByeCommand(strippedUserInput);
+        } else if (strippedUserInput.startsWith("todo")) {
+            command = new AddCommand(strippedUserInput, "todo");
+        } else if (strippedUserInput.startsWith("deadline")) {
+            command = new AddCommand(strippedUserInput, "deadline");
+        } else if (strippedUserInput.startsWith("event")) {
+            command = new AddCommand(strippedUserInput, "event");
+        } else if (strippedUserInput.startsWith("done")) {
+            command = new DoneCommand(strippedUserInput);
+        } else if (strippedUserInput.startsWith("delete")) {
+            command = new DeleteCommand(strippedUserInput);
+        } else if (strippedUserInput.equals("list")) {
+            command = new ListCommand(strippedUserInput);
+        } else if (strippedUserInput.startsWith("find")) {
+            command = new FindCommand(strippedUserInput);
+        } else if (strippedUserInput.equals("clear")) {
+            command = new ClearCommand(strippedUserInput);
         } else {
             throw new InvalidCommandException();
         }

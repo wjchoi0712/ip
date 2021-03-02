@@ -1,5 +1,6 @@
 package duke.ui;
 
+import duke.exception.action.ClearTaskException;
 import duke.exception.action.EmptyListException;
 import duke.exception.action.NoMatchingTaskException;
 import duke.task.Task;
@@ -38,6 +39,7 @@ public class TextUi {
     private static final String MESSAGE_REMAININGTASK = " Now you have %d tasks in the list.";
     private static final String MESSAGE_LISTTASK = " Here are the tasks in your list:";
     private static final String MESSAGE_FINDTASK = " Here are the matching tasks in your list:";
+    private static final String MESSAGE_CLEARTASK = " Noted. I've cleared %d tasks in the list.";
 
     private final Scanner in;
     private final PrintStream out;
@@ -148,6 +150,20 @@ public class TextUi {
             showToUser(MESSAGE_FINDTASK, matchingTasks.getTaskListAsString());
         } else {
             throw new NoMatchingTaskException();
+        }
+    }
+
+    /**
+     * Generates and prints out a message showing the {@link TaskList} has been cleared
+     *
+     * @param tasks task list to be cleared
+     * @throws ClearTaskException if the task list is already empty
+     */
+    public void showClearResponse(TaskList tasks) throws ClearTaskException {
+        if (!tasks.isEmpty()) {
+            showToUser(String.format(MESSAGE_CLEARTASK, tasks.getTotalNoOfTasks()));
+        } else {
+            throw new ClearTaskException();
         }
     }
 }

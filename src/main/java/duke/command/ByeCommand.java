@@ -20,6 +20,7 @@ public class ByeCommand extends Command {
     }
 
     /** Prints out the ending message */
+    @Override
     public void execute(TaskList tasks, TextUi ui, Storage storage){
         ui.showEndingMessage();
     }
