@@ -4,6 +4,7 @@
 using the Command Line Interface(CLI).
 
 ### Features 
+
 * Viewing help: `help`
 * Adding a task:
   * Adding todo task: `todo`
@@ -18,12 +19,14 @@ using the Command Line Interface(CLI).
 * Saving the data
 ---
 ### Viewing help: `help`
+
 Shows a message explaining how to each feature is used.
 
 **Format**: `help`
 <br /> <br />
 
 ###Adding todo task: `todo`
+
 Adds a todo task to the task list.
 
 **Format**: `todo DESCRIPTION`
@@ -34,6 +37,7 @@ Adds a todo task to the task list.
 <br /> <br />
 
 ###Adding deadline task: `deadline`
+
 Adds a deadline task to the task list.
 
 **Format**: `deadline DESCRIPTION /by [DUE DATE]`
@@ -46,6 +50,7 @@ Adds a deadline task to the task list.
 <br /> <br />
 
 ###Adding event task: `event`
+
 Adds an event task to the task list.
 
 **Format**: `event DESCRIPTION /by [EVENT DATE]`
@@ -58,6 +63,7 @@ Adds an event task to the task list.
 <br /> <br />
 
 ###Deleting a task: `done`
+
 Marks a specific task as done.
 
 **Format**: `done INDEX`
@@ -76,6 +82,7 @@ Marks a specific task as done.
 <br />
 
 ###Deleting a task: `delete`
+
 Deletes a specific task from the task list.
 
 **Format**: `delete INDEX`
@@ -89,12 +96,14 @@ Deletes a specific task from the task list.
   <br /> <br />
   
 ###Clearing all entries: `clear`
+
 Deletes all the tasks in the task list.
 
 **Format**: `clear`
   <br /> <br />
 
 ###Listing all tasks: `list`
+
 Prints out all the tasks in the task list.
 
 **Format**: `list`
@@ -107,6 +116,7 @@ Prints out all the tasks in the task list.
 <br />
 
 ###Searching tasks by keyword: `find`
+
 Prints out all the tasks with description that matches the keyword.
 
 **Format**: `find INDEX`
@@ -124,17 +134,20 @@ Prints out all the tasks with description that matches the keyword.
 <br />
 
 ###Exiting the program: `bye`
+
 Prints out the terminating message and exits the program.
 
 **Format**: `bye`
 <br /> <br />
 
 ###Saving the data
+
 The task list is automatically saved in the `/data/task.txt` and is 
 automatically loaded in subsequence usage.
 ---
 
 ##Command Summary
+
 Action | Format
 ------ | ---------------
 Help | `help`
