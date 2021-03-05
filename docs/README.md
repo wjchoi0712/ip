@@ -18,8 +18,6 @@ using the Command Line Interface(CLI).
 * Exiting the program: `bye`
 * Saving the data
 
----
-
 ### Viewing help: `help`
 
 Shows a message explaining how to each feature is used.
@@ -146,7 +144,6 @@ Prints out the terminating message and exits the program.
 
 The task list is automatically saved in the `/data/task.txt` and is 
 automatically loaded in subsequence usage.
----
 
 ##Command Summary
 
