@@ -131,7 +131,7 @@ Prints out all the tasks with description that matches the keyword.
   
 **Expected outcome:**
 >Here are the matching tasks in your list:\
->\1. \[T][ ] CS2113T Homework
+>1.\[T][ ] CS2113T Homework
 
 <br />
 
@@ -147,6 +147,7 @@ Prints out the terminating message and exits the program.
 The task list is automatically saved in `/data/task.txt` and is 
 automatically loaded in subsequence usage.
 <br /><br />
+
 ---
 
 ## Command Summary
