@@ -28,7 +28,7 @@ Shows a message explaining how to each feature is used.
 <br /> <br />
 
 
-###Adding todo task: `todo`
+### Adding todo task: `todo`
 
 Adds a todo task to the task list.
 
@@ -39,7 +39,7 @@ Adds a todo task to the task list.
 - `todo CS2113T Homework`
 <br /> <br />
 
-###Adding deadline task: `deadline`
+### Adding deadline task: `deadline`
 
 Adds a deadline task to the task list.
 
@@ -52,7 +52,7 @@ Adds a deadline task to the task list.
 - `deadline CS2113T Homework /by 2021-3-5`
 <br /> <br />
 
-###Adding event task: `event`
+### Adding event task: `event`
 
 Adds an event task to the task list.
 
@@ -65,7 +65,7 @@ Adds an event task to the task list.
 - `event CS2113T Homework /at 2021-3-5`
 <br /> <br />
 
-###Deleting a task: `done`
+### Deleting a task: `done`
 
 Marks a specific task as done.
 
@@ -84,7 +84,7 @@ Marks a specific task as done.
 
 <br />
 
-###Deleting a task: `delete`
+### Deleting a task: `delete`
 
 Deletes a specific task from the task list.
 
@@ -98,14 +98,14 @@ Deletes a specific task from the task list.
 - Above command deletes the second task in the task list.
   <br /> <br />
   
-###Clearing all entries: `clear`
+### Clearing all entries: `clear`
 
 Deletes all the tasks in the task list.
 
 **Format**: `clear`
   <br /> <br />
 
-###Listing all tasks: `list`
+### Listing all tasks: `list`
 
 Prints out all the tasks in the task list.
 
@@ -118,7 +118,7 @@ Prints out all the tasks in the task list.
 
 <br />
 
-###Searching tasks by keyword: `find`
+### Searching tasks by keyword: `find`
 
 Prints out all the tasks with description that matches the keyword.
 
@@ -136,21 +136,21 @@ Prints out all the tasks with description that matches the keyword.
 
 <br />
 
-###Exiting the program: `bye`
+### Exiting the program: `bye`
 
 Prints out the terminating message and exits the program.
 
 **Format**: `bye`
 <br /> <br />
 
-###Saving the data
+### Saving the data
 
 The task list is automatically saved in the `/data/task.txt` and is 
 automatically loaded in subsequence usage.
 
 ---
 
-##Command Summary
+## Command Summary
 
 Action | Format
 ------ | ---------------
