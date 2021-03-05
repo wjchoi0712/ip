@@ -3,7 +3,7 @@
 **Duke** is a desktop application which helps the user to **manage their tasks**
 using the Command Line Interface(CLI).
 
-### Features 
+## Features 
 
 * Viewing help: `help`
 * Adding a task:
@@ -18,6 +18,7 @@ using the Command Line Interface(CLI).
 * Exiting the program: `bye`
 * Saving the data
 ---
+
 ### Viewing help: `help`
 
 Shows a message explaining how to each feature is used.
