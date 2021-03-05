@@ -31,8 +31,8 @@ public class Duke {
             this.tasks = storage.loadData();
             ui.showGreetingMessage();
             runCommandLoopUntilExitCommand();
-        } catch(StorageOperationException soe) {
-            ui.showToUser(soe.getMessage());
+        } catch(StorageOperationException e) {
+            ui.showToUser(e.getMessage());
         }
     }
 

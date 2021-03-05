@@ -165,6 +165,7 @@ public class TextUi {
         }
     }
 
+    /** Generates and prints out a message explaining how each command works */
     public void showHelpResponse() {
         showToUser(
                 "Commands:" + LS
