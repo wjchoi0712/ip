@@ -23,7 +23,7 @@ public class TaskFileDecoder {
             NoDescriptionException, InvalidEventDescriptionException {
 
         String[] taskDescriptionAndStatus = separateTaskDescriptionAndStatus(data);
-        boolean isDone = taskDescriptionAndStatus[1].equals("\u2705");
+        boolean isDone = taskDescriptionAndStatus[1].equals("X");
 
         Task decodedTask;
 

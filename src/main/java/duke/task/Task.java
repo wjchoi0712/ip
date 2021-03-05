@@ -42,7 +42,7 @@ public class Task {
      * Else return a blank space with brackets when the task is incomplete.
      */
     public String getStatusIcon() {
-        return (isDone ? "[\u2705]" : "[  ]");
+        return (isDone ? "[X]" : "[ ]");
     }
 
     /**
