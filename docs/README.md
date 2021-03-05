@@ -25,7 +25,8 @@ using the Command Line Interface(CLI).
 Shows a message explaining how to each feature is used.
 
 **Format**: `help`
-<br />
+<br /> <br />
+
 
 ###Adding todo task: `todo`
 
