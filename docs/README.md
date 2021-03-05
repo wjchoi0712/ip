@@ -17,6 +17,7 @@ using the Command Line Interface(CLI).
 * Searching tasks by keyword: `find`
 * Exiting the program: `bye`
 * Saving the data
+
 ---
 
 ### Viewing help: `help`
