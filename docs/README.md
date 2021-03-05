@@ -65,7 +65,7 @@ Adds an event task to the task list.
 - `event CS2113T Homework /at 2021-3-5`
 <br /> <br />
 
-### Deleting a task: `done`
+### Marking a task as done: `done`
 
 Marks a specific task as done.
 
@@ -113,8 +113,8 @@ Prints out all the tasks in the task list.
 
 **Expected outcome:**
 >Here are the tasks in your list:\
->\1.\[T][ ] CS2113T Homework\
->\2.\[D][ ] CS2113T IP (by: MAR 6 2021)
+>1.\[T]\[ ] CS2113T Homework\
+>2.\[D]\[ ] CS2113T IP (by: MAR 6 2021)
 
 <br />
 
@@ -128,7 +128,6 @@ Prints out all the tasks with description that matches the keyword.
 **Example of usage:**
 - `find Homework`
 - Above command finds all the tasks with 'Homework' in their description.
-  <br /> <br />
   
 **Expected outcome:**
 >Here are the matching tasks in your list:\
@@ -145,9 +144,9 @@ Prints out the terminating message and exits the program.
 
 ### Saving the data
 
-The task list is automatically saved in the `/data/task.txt` and is 
+The task list is automatically saved in `/data/task.txt` and is 
 automatically loaded in subsequence usage.
-
+<br /><br />
 ---
 
 ## Command Summary
