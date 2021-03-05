@@ -36,7 +36,7 @@ Adds a todo task to the task list.
 * Description of the task cannot be empty.
 
 **Example of usage:**
-- `todo CS2113T Homework`
+* `todo CS2113T Homework`
 <br /> <br />
 
 ### Adding deadline task: `deadline`
@@ -49,7 +49,7 @@ Adds a deadline task to the task list.
   date variable rather than treating it as just a String.
 
 **Example of usage:**
-- `deadline CS2113T Homework /by 2021-3-5`
+* `deadline CS2113T Homework /by 2021-3-5`
 <br /> <br />
 
 ### Adding event task: `event`
@@ -62,7 +62,7 @@ Adds an event task to the task list.
   date variable rather than treating it as just a String.
   
 **Example of usage:**
-- `event CS2113T Homework /at 2021-3-5`
+* `event CS2113T Homework /at 2021-3-5`
 <br /> <br />
 
 ### Marking a task as done: `done`
@@ -75,8 +75,8 @@ Marks a specific task as done.
 * The index must be a positive integer.
 
 **Example of usage:**
-- `done 2`
-- Above command marks the second task in the task list as done.
+* `done 2`
+* Above command marks the second task in the task list as done.
 
 **Expected outcome:**
 >Nice! I've marked this task as done:\
@@ -94,16 +94,16 @@ Deletes a specific task from the task list.
 * The index must be a positive integer.
 
 **Example of usage:**
-- `delete 2`
-- Above command deletes the second task in the task list.
-  <br /> <br />
+* `delete 2`
+* Above command deletes the second task in the task list.
+<br /> <br />
   
 ### Clearing all entries: `clear`
 
 Deletes all the tasks in the task list.
 
 **Format**: `clear`
-  <br /> <br />
+<br /> <br />
 
 ### Listing all tasks: `list`
 
@@ -126,8 +126,8 @@ Prints out all the tasks with description that matches the keyword.
 * The search is case-sensitive
 
 **Example of usage:**
-- `find Homework`
-- Above command finds all the tasks with 'Homework' in their description.
+* `find Homework`
+* Above command finds all the tasks with 'Homework' in their description.
   
 **Expected outcome:**
 >Here are the matching tasks in your list:\
