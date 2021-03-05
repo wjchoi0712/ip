@@ -43,7 +43,7 @@ Adds a todo task to the task list.
 
 Adds a deadline task to the task list.
 
-**Format**: `deadline DESCRIPTION /by [DUE DATE]`
+**Format**: `deadline DESCRIPTION /by DUE DATE`
 * Description and due date of the task cannot be empty.
 * When due date is inserted in YYYY-M-D format, Duke treats it as an actual
   date variable rather than treating it as just a String.
@@ -56,7 +56,7 @@ Adds a deadline task to the task list.
 
 Adds an event task to the task list.
 
-**Format**: `event DESCRIPTION /by [EVENT DATE]`
+**Format**: `event DESCRIPTION /by EVENT DATE`
 * Description and event date of the task cannot be empty.
 * When event date is inserted in YYYY-M-D format, Duke treats it as an actual
   date variable rather than treating it as just a String.
